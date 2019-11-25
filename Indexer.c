@@ -24,7 +24,7 @@ typedef struct indexer_ {
    node *list ;
 } indexer;
 
-indexer *newIndexer( int base, int len ) {
+void *newIndexer( int base, int len ) {
   indexer *ptr = malloc ( sizeof( indexer ) );
   memset(ptr,0, sizeof(indexer) );
   ptr->base = base ;
@@ -35,10 +35,11 @@ indexer *newIndexer( int base, int len ) {
   freePtr->len = len;
   freePtr->base = base;
   ptr->list = freePtr;
-  return ptr;
+  return (void *)ptr;
 }
 
-int  allocIndex( indexer *p, int size ) {
+int  allocIndex( void *v, int size ) {
+   indexer *p = ( indexer *) v;
    node *curr = p->list ;
    while ( curr ) {
       //printf( " base %d len %d free %d\n", curr->base, curr->len, IS_FREE(curr));
@@ -74,7 +75,8 @@ int  allocIndex( indexer *p, int size ) {
 
 }
 
-int freeIndex( indexer *p, int base ) {
+int freeIndex( void *v, int base ) {
+   indexer *p = ( indexer *) v;
    if ( !p) return -1;
    if ( base < p->base || base > ( p->base + p->len) )
       return -1;
@@ -116,7 +118,8 @@ int freeIndex( indexer *p, int base ) {
       return base;
 }
 
-void printNode ( indexer *handle ) {
+void printNode ( void *v ) {
+   indexer *handle = ( indexer *) v;
    if ( !handle) return;
    node *curr = handle->list;
    while(curr ) {
