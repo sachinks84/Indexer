@@ -6,6 +6,7 @@ This is an index allocation library that manages a block of indices.
 * Indexer.so  
 * BestFitIndexer.so -> faster version and avoids fragmentation 
 
+
 ### Initialize the index manager 
 ```
 void *newIndexer( int base, int len );
@@ -20,5 +21,7 @@ int allocIndex( void  *handle, int size );
 ```
 int freeIndex( void *handle, int base );
 ```
-
+### Performance of BestFitIndexer on x86 XENON CPU
+* allocation time of 1 million indices ~ 1 second  
+* deletion time for 1 million indices in random order ~ 1.8 seconds 
 
